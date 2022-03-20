@@ -33,7 +33,8 @@ it.each(["empty_release", "standard", "first_release", "lowercase_link_reference
       release.date,
       release.genesisHash,
       release.owner,
-      release.repo
+      release.repo,
+      false
     );
     actual.path = `./__tests__/fixtures/${testcase}/CHANGELOG.actual.md`;
     await write(actual, {

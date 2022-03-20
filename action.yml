@@ -17,6 +17,9 @@ inputs:
   changelogPath:
     description: 'The path to the changelog file. Defaults to `./CHANGELOG.md`'
     required: false
+  skipDiff:
+    description: 'Skip adding the git diff links.'
+    required: false
 runs:
   using: 'node12'
   main: 'dist/index.js'

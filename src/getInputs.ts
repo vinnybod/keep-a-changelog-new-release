@@ -8,6 +8,7 @@ interface Inputs {
   owner: string;
   repo: string;
   changelogPath: string;
+  skipDiff: boolean;
 }
 
 function parseTagAndVersion(): [string, string] {
@@ -37,6 +38,8 @@ export default function getInputs(): Inputs {
   const changelogPath = getInput("changelogPath") || "./CHANGELOG.md";
   const githubRepository = process.env.GITHUB_REPOSITORY;
 
+  const skipDiff = getInput("skipDiff") === "true";
+
   if (!githubRepository) {
     throw new Error("GITHUB_REPOSITORY is not set");
   }
@@ -49,6 +52,7 @@ export default function getInputs(): Inputs {
     date,
     owner,
     repo,
-    changelogPath
+    changelogPath,
+    skipDiff,
   };
 }

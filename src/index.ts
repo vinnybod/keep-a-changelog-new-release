@@ -6,7 +6,7 @@ import getGenesisHash from "./getGenesisHash";
 
 async function run(): Promise<void> {
   try {
-    const { tag, version, date, owner, repo, changelogPath } = getInputs();
+    const { tag, version, date, owner, repo, changelogPath, skipDiff } = getInputs();
 
     const genesisHash = await getGenesisHash();
     const changelog = await read(changelogPath, { encoding: "utf-8" });
@@ -18,7 +18,8 @@ async function run(): Promise<void> {
       date,
       genesisHash,
       owner,
-      repo
+      repo,
+      skipDiff
     );
 
     await write(newChangelog, { encoding: "utf-8" });

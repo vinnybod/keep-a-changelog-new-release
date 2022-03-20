@@ -70,6 +70,7 @@ interface Options {
   genesisHash: string;
   owner: string;
   repo: string;
+  skipDiff: boolean;
 }
 
 function releaseTransformation({
@@ -78,7 +79,8 @@ function releaseTransformation({
   releaseDate,
   genesisHash,
   owner,
-  repo
+  repo,
+  skipDiff
 }: Options) {
   return transformer as Transformer;
 
@@ -86,15 +88,18 @@ function releaseTransformation({
     const previousVersion = determinePreviousVersion(tree);
     convertUnreleasedSectionToNewRelease(tree, version, releaseDate);
     addEmptyUnreleasedSection(tree);
-    updateCompareUrls(
-      tree,
-      tag,
-      version,
-      previousVersion,
-      genesisHash,
-      owner,
-      repo
-    );
+
+    if (!skipDiff) {
+      updateCompareUrls(
+        tree,
+        tag,
+        version,
+        previousVersion,
+        genesisHash,
+        owner,
+        repo
+      );
+    }
 
     return tree as Node;
   }
@@ -269,7 +274,8 @@ export default async function updateChangelog(
   releaseDate: string,
   genesisHash: string,
   owner: string,
-  repo: string
+  repo: string,
+  skipDiff: boolean
 ): Promise<VFile> {
   return await unified()
     .use(markdown)
@@ -279,7 +285,8 @@ export default async function updateChangelog(
       releaseDate,
       genesisHash,
       owner,
-      repo
+      repo,
+      skipDiff
     })
     .use(stringify)
     .process(file);
